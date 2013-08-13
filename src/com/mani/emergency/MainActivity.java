@@ -1,15 +1,36 @@
 package com.mani.emergency;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.AlertDialog;
+import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.Contacts;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
-public class MainActivity extends Activity {
-
+public class MainActivity extends ListActivity {
+	private static final int CONTACT_PICKER_RESULT = 1001;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		Button button = (Button) findViewById(R.id.add);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+				startActivityForResult(intent, CONTACT_PICKER_RESULT);
+			}
+		});
 	}
 
 	@Override
@@ -17,6 +38,70 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == RESULT_OK){
+			switch(requestCode){
+			case CONTACT_PICKER_RESULT:
+				Cursor cursor = null;
+				String phoneNumber = "";
+				String name = "";
+				List<String> allNumbers = new ArrayList<String>();
+				List<String> allNames = new ArrayList<String>();
+				int phoneIdx = 0;
+				int nameId = 0;
+				Uri result = data.getData();
+				String id = result.getLastPathSegment();
+				cursor = getContentResolver().query(Phone.CONTENT_URI, null, Phone.CONTACT_ID + "=?", new String[] {id}, null);
+				phoneIdx = cursor.getColumnIndex(Phone.DATA);
+				nameId = cursor.getColumnIndex(Contacts.DISPLAY_NAME);
+				try {
+					if (cursor.moveToFirst()) {
+						while (cursor.isAfterLast() == false) {
+							phoneNumber = cursor.getString(phoneIdx);
+							name = cursor.getString(nameId);
+							allNumbers.add(phoneNumber);
+							allNames.add(name);
+							cursor.moveToNext();
+						}
+					} else {
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					if (cursor != null) {
+						cursor.close();
+					}
+				}
+				final CharSequence[] items = allNumbers.toArray(new String[allNumbers.size()]);
+				final CharSequence[] names = allNames.toArray(new String[allNames.size()]);
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setTitle(getString(R.string.chooseNumber));
+				builder.setItems(items, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,	int item) {
+						String selectedNumber = items[item].toString();
+						String selectedName = names[item].toString();
+						selectedNumber = selectedNumber.replace("-", "");
+						Log.e("Tag", selectedNumber);
+						Log.e("Tag", selectedName);
+					}
+				});
+				AlertDialog alert = builder.create();
+				if (allNumbers.size() > 1) {
+					alert.show();
+				} else {
+					String selectedNumber = phoneNumber.toString();
+					String selectedName = name.toString();
+					selectedNumber = selectedNumber.replace("-", "");
+					Log.e("Tag", selectedNumber);
+					Log.e("Tag", selectedName);
+				}
+				break;
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

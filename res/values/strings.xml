@@ -3,6 +3,8 @@
 
     <string name="app_name">Emergency</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="addContacts">Add Contacts</string>
+    <string name="emptyView">No contacts selected</string>
+    <string name="chooseNumber">Choose Number</string>
 
 </resources>
