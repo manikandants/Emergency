@@ -147,6 +147,7 @@ public class MainActivity extends ListActivity {
 					String selectedName = name.toString();
 					selectedNumber = selectedNumber.replace("-", "");
 					db.addContact(new Contact(selectedName, selectedNumber));
+					adapter.add(selectedName);
 				}
 				break;
 			}

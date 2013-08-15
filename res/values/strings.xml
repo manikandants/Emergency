@@ -10,5 +10,6 @@
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
     <string name="serviceName">Shaker Service</string>
+    <string name="message">Test Message</string>
 
 </resources>
