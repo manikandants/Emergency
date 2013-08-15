@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 public class MainActivity extends ListActivity {
 	
@@ -57,6 +59,18 @@ public class MainActivity extends ListActivity {
 				adapter.clear();
 				db.deleteAllContacts();
 				adapter.notifyDataSetChanged();
+			}
+		});
+		final Intent intent = new Intent(this, ShakerService.class);
+		ToggleButton service = (ToggleButton) findViewById(R.id.toggle);
+		service.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked) {
+					startService(intent);
+				}else{
+					stopService(intent);
+				}
 			}
 		});
 	}

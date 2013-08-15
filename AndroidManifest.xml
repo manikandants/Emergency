@@ -23,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+  			android:name="ShakerService"
+  			android:icon="@drawable/ic_launcher"
+  			android:label="@string/serviceName">
+		</service>
     </application>
 
 </manifest>

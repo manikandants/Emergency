@@ -29,6 +29,16 @@
         android:layout_below="@id/add"
         android:layout_centerHorizontal="true"
         android:text="@string/deleteContacts" />
+    
+    <ToggleButton 
+        android:id="@+id/toggle"
+        android:layout_below="@id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="@string/enable"
+        android:textOn="@string/disable"
+        android:layout_centerHorizontal="true"
+        android:checked="false"/>
 
     <TextView
         android:id="@android:id/empty"

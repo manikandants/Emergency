@@ -7,5 +7,8 @@
     <string name="emptyView">No contacts selected</string>
     <string name="chooseNumber">Choose Number</string>
     <string name="deleteContacts">Delete Contacts</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
+    <string name="serviceName">Shaker Service</string>
 
 </resources>
