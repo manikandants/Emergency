@@ -15,20 +15,48 @@ import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 public class MainActivity extends ListActivity {
+	
 	private static final int CONTACT_PICKER_RESULT = 1001;
+	//LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
+    ArrayList<String> listItems=new ArrayList<String>();
+
+    //DEFINING STRING ADAPTER WHICH WILL HANDLE DATA OF LISTVIEW
+    ArrayAdapter<String> adapter;
+
+    DatabaseHandler db = new DatabaseHandler(this);
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+	    List<Contact> contacts = db.getAllContacts();       
+	    for (Contact cn : contacts) {
+	    	listItems.add(cn.getName());
+	        String log = "Id: "+cn.getId()+" ,Name: " + cn.getName() + " ,Phone: " + cn.getPhoneNumber();
+	            // Writing Contacts to log
+	    Log.d("Tag", log);
+	    }
+		adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+	    setListAdapter(adapter);
 		Button button = (Button) findViewById(R.id.add);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
 				startActivityForResult(intent, CONTACT_PICKER_RESULT);
+			}
+		});
+		Button delete = (Button) findViewById(R.id.delete);
+		delete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				listItems.removeAll(listItems);
+				adapter.clear();
+				db.deleteAllContacts();
+				adapter.notifyDataSetChanged();
 			}
 		});
 	}
@@ -84,8 +112,17 @@ public class MainActivity extends ListActivity {
 						String selectedNumber = items[item].toString();
 						String selectedName = names[item].toString();
 						selectedNumber = selectedNumber.replace("-", "");
-						Log.e("Tag", selectedNumber);
-						Log.e("Tag", selectedName);
+						db.addContact(new Contact(selectedName, selectedNumber));
+						adapter.add(selectedName);
+						 // Reading all contacts
+					    Log.e("Tag", "Reading all contacts.."); 
+					    List<Contact> contacts = db.getAllContacts();       
+					     
+					    for (Contact cn : contacts) {
+					        String log = "Id: "+cn.getId()+" ,Name: " + cn.getName() + " ,Phone: " + cn.getPhoneNumber();
+					            // Writing Contacts to log
+					    Log.d("Tag", log);
+					    }
 					}
 				});
 				AlertDialog alert = builder.create();
@@ -95,13 +132,12 @@ public class MainActivity extends ListActivity {
 					String selectedNumber = phoneNumber.toString();
 					String selectedName = name.toString();
 					selectedNumber = selectedNumber.replace("-", "");
-					Log.e("Tag", selectedNumber);
-					Log.e("Tag", selectedName);
+					db.addContact(new Contact(selectedName, selectedNumber));
 				}
 				break;
 			}
 		}
+		adapter.notifyDataSetChanged();
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-
 }

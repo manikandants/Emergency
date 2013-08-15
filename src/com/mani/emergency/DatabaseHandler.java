@@ -124,5 +124,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	            new String[] { String.valueOf(contact.getId()) });
 	    db.close();
 	}
-
+	public void deleteAllContacts() {
+	    List<Contact> contactList = getAllContacts();
+	    for(Contact contact:contactList){
+	    	deleteContact(contact);
+	    }
+	}
 }
