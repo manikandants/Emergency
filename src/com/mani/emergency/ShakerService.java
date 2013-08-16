@@ -45,7 +45,7 @@ public class ShakerService extends Service{
 
 	@Override
 	public void onCreate() {
-		Log.e("Tag", "Service Created");
+		Log.e("Tag", "Shaker Service Created");
 		/* do this in onCreate */
 	    sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 	    sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
@@ -56,20 +56,20 @@ public class ShakerService extends Service{
 	}
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.e("Tag", "Service Started");
+		Log.e("Tag", "Shaker Service Started");
 		sensorManager.registerListener(sensorEventListener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 		return super.onStartCommand(intent, flags, startId);
 	}
 	@Override
 	public void onDestroy() {
-		Log.e("Tag", "Service Destroyed");
+		Log.e("Tag", "Shaker Service Destroyed");
 		sensorManager.unregisterListener(sensorEventListener);
 		smsSent = false;
 		super.onDestroy();
 	}
 	@Override
 	public IBinder onBind(Intent intent) {
-		Log.e("Tag", "Service Bound");
+		Log.e("Tag", "Shaker Service Bound");
 		return null;
 	}
 }

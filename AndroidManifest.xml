@@ -31,7 +31,7 @@
         <service
   			android:name="ShakerService"
   			android:icon="@drawable/ic_launcher"
-  			android:label="@string/serviceName">
+  			android:label="@string/shakerService">
 		</service>
     </application>
 

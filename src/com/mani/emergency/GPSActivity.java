@@ -65,7 +65,7 @@ public class GPSActivity extends Activity implements LocationListener{
 	    for (Contact cn : contacts) {
 			PendingIntent pi = PendingIntent.getService(this, 0, new Intent(this, ShakerService.class), 0);                
 		    SmsManager sms = SmsManager.getDefault();
-		    sms.sendTextMessage(cn.getPhoneNumber(), null, getString(R.string.message)+location.getLatitude()+","+location.getLongitude(), pi, null);
+		    sms.sendTextMessage(cn.getPhoneNumber(), null, getString(R.string.accidentMessage)+location.getLatitude()+","+location.getLongitude(), pi, null);
 	    }
 		finish();
 	}

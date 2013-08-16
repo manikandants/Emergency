@@ -9,7 +9,7 @@
     <string name="deleteContacts">Delete Contacts</string>
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
-    <string name="serviceName">Shaker Service</string>
-    <string name="message">I met with an accident at the following location. https://www.google.co.in/maps?q=</string>
-
+    <string name="shakerService">Shaker Service</string>
+    <string name="accidentMessage">I met with an accident at the following location. https://www.google.co.in/maps?q=</string>
+	<string name="panicMessage">I am in trouble at the following location. https://www.google.co.in/maps?q=</string>
 </resources>
