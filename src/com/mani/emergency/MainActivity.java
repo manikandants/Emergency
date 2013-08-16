@@ -63,13 +63,21 @@ public class MainActivity extends ListActivity {
 		});
 		final Intent intent = new Intent(this, ShakerService.class);
 		ToggleButton service = (ToggleButton) findViewById(R.id.toggle);
+		if(db.getButton(1) != null){
+			service.setChecked(db.getButton(1));
+		}else{
+			db.setButton(false);
+			service.setChecked(db.getButton(1));
+		}
 		service.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked) {
 					startService(intent);
+					db.updateButton(isChecked);
 				}else{
 					stopService(intent);
+					db.updateButton(isChecked);
 				}
 			}
 		});
