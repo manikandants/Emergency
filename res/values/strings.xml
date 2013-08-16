@@ -10,6 +10,6 @@
     <string name="enable">Enable</string>
     <string name="disable">Disable</string>
     <string name="serviceName">Shaker Service</string>
-    <string name="message">Test Message</string>
+    <string name="message">I met with an accident at the following location. https://www.google.co.in/maps?q=</string>
 
 </resources>
