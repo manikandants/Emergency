@@ -1,5 +1,9 @@
 package com.mani.emergency;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -61,13 +65,23 @@ public class GPSActivity extends Activity implements LocationListener{
 
 	@Override
 	public void onLocationChanged(Location arg0) {
-		List<Contact> contacts = db.getAllContacts();       
-	    for (Contact cn : contacts) {
-			PendingIntent pi = PendingIntent.getService(this, 0, new Intent(this, ShakerService.class), 0);                
-		    SmsManager sms = SmsManager.getDefault();
-		    sms.sendTextMessage(cn.getPhoneNumber(), null, getString(R.string.accidentMessage)+location.getLatitude()+","+location.getLongitude(), pi, null);
-	    }
-		finish();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		Date ExpiryDate = new Date();
+		try {
+			ExpiryDate = dateFormat.parse("2014/07/01 12:00:00");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(date.before(ExpiryDate)){
+			List<Contact> contacts = db.getAllContacts();       
+		    for (Contact cn : contacts) {
+				PendingIntent pi = PendingIntent.getService(this, 0, new Intent(this, ShakerService.class), 0);                
+			    SmsManager sms = SmsManager.getDefault();
+			    sms.sendTextMessage(cn.getPhoneNumber(), null, getString(R.string.accidentMessage)+location.getLatitude()+","+location.getLongitude(), pi, null);
+		    }
+			finish();
+		}
 	}
 
 	@Override
